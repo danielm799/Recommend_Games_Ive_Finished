@@ -14,7 +14,7 @@ class Titles:
         self.genres = genres
     #for if i want to print out everything about the title
     def get_title_and_genres(self):
-        print("{0}\nGenre: {1}".format(self.title, self.genres))
+        return "{0}\nGenre: {1}".format(self.title, self.genres)
     #just makes getting the title itself easier.
     def get_title(self):
         return self.title
@@ -30,15 +30,19 @@ class Genres:
         self.genre = genre
         self.titles = titles
     #easy way to get the titles edge list
-    def __repr__(self):
-        print(f"The titles associated with the Genre {self.genre}: {self.titles}")
+    def get_genre_and_title(self):
+        return f"The titles associated with the Genre {self.genre}: {self.titles}"
     #to get titles and genre
     def get_titles(self):
-        print(self.titles)
+        return self.titles
     def get_genre(self):
-        print(self.genre)
+        return self.genre
     #oof. Was gonna make a new object but that will make things messy
     def add_title(self, title_object):
+        if not self.titles:
+            self.titles += [title_object]
+            title_object.add_genre(self.genre)
+            return
         for elem in self.titles:
             if elem == title_object:
                 print(f"{title_object.get_title()} is already under {self.genre}")
@@ -129,12 +133,17 @@ for key, value in title_object_dict.items():
     title_object_dict[key] = title_object
 
 def add_titleObj_to_genreObj(title_obj):
-    for genre in title_obj.genres:
+    print(f"iterating through {title_obj.title}'s genre list...")
+    for elem in title_obj.get_genres():
+        print("Elem is", elem)
         for key, value in genre_object_dict.items():
-            if genre == key:
+            if elem == key:
                 value.add_title(title_obj)
 
+for value in title_object_dict.values():
+    add_titleObj_to_genreObj(value)
 
+print(metroidvania)
 #example = Titles("example", ["e.g", "i.e"])
 #example.get_title_and_genres()
 
