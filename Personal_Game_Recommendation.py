@@ -1,5 +1,5 @@
 # I need classes for both titles and graphs. A title object needs to point to
-#it's relevant genres and it needs to possess its own name. A genre object
+#it's relevant genres (not necessarily genre objects) and it needs to possess its own name. A genre object
 #would need to point to their relevant title objects, add a title object, and print
 #out its own name and their relevant titles. I think doing this properly is gonna need a 
 #dictionary of titles with their genres as keys, so maybe it isn't necessary to make titles
@@ -10,14 +10,16 @@
 class Titles:
     #instance properties/attributes i forgot the names
     def __init__(self, title, genres=None):
-        self.genres = genres
         self.title = title
+        self.genres = genres
     #for if i want to print out everything about the title
-    def __repr__(self):
-        print(f"{self.title}\nGenre: {self.genres}")
+    def get_title_and_genres(self):
+        print("{0}\nGenre: {1}".format(self.title, self.genres))
     #just makes getting the title itself easier.
     def get_title(self):
         return self.title
+    def get_genres(self):
+        return self.genres
     #to be used with Genres.add_title()
     def add_genre(self, genre_string):
         self.genres += [genre_string]
@@ -30,6 +32,11 @@ class Genres:
     #easy way to get the titles edge list
     def __repr__(self):
         print(f"The titles associated with the Genre {self.genre}: {self.titles}")
+    #to get titles and genre
+    def get_titles(self):
+        print(self.titles)
+    def get_genre(self):
+        print(self.genre)
     #oof. Was gonna make a new object but that will make things messy
     def add_title(self, title_object):
         for elem in self.titles:
@@ -38,6 +45,7 @@ class Genres:
                 return
         self.titles += [title_object]
         title_object.add_genre(self.genre)
+    
 
 #use the premade list of titles and make all of the genre objects
 horror = Genres("Horror")
@@ -56,9 +64,26 @@ jrpg = Genres("JRPG")
 tactical = Genres("Tactical")
 postapoc = Genres("Post-Apocalyptic")
 shooter = Genres("Shooter")
-
+genre_object_dict = {
+    "Horror": horror,
+    "Action": action,
+    "Adventure": adventure,
+    "Souls-Like": soulslike,
+    "Platformer": platformer,
+    "Metroidvania": metroidvania,
+    "Hack N' Slash": hacknslash,
+    "RPG": rpg,
+    "Rogue-Lite": rougelite,
+    "Mystery": mystery,
+    "Fantasy": fantasy,
+    "CRPG": crpg,
+    "JRPG": jrpg,
+    "Tactical": tactical,
+    "Post-Apocalytpic": postapoc,
+    "Shooter": shooter
+}
 #use that same list to make the title objects jesus that was a lot of work
-title_genre_dict = {
+title_object_dict = {
     "Alien: Isolation": ["Horror"],
     "Amnesia: Rebirth": ["Horror", "Adventure"],
     "A Plague Tale: Innocence": ["Adventure", "Action"],
@@ -99,9 +124,19 @@ title_genre_dict = {
 }
 #somehow make a for loop that takes every title's list of relevant genres to make an edge 
 #between the title and the relevant genres, or make a function do it
+for key, value in title_object_dict.items():
+    title_object = Titles(key, value)
+    title_object_dict[key] = title_object
 
-#also set up a linked list that connects titles to each other as to prevent the need of making a list of titles.
-#saves memory 
+def add_titleObj_to_genreObj(title_obj):
+    for genre in title_obj.genres:
+        for key, value in genre_object_dict.items():
+            if genre == key:
+                value.add_title(title_obj)
+
+
+#example = Titles("example", ["e.g", "i.e"])
+#example.get_title_and_genres()
 
 #now ask the user if they want to search through titles or by genre
 
@@ -112,5 +147,4 @@ title_genre_dict = {
 #string Titles and their Genre lists.
 
 #its easier with Genres. I just use a bunch of if statements and do something similar with Titles like adding 
-#relevant genres to a list and printing them out in the end, but I'll be printing out the edges too.
-
+#relevant genres to a list and printing them out in the end, but I'll be printing out the edges too
