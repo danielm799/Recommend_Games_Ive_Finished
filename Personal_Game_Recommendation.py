@@ -9,7 +9,7 @@
 #make a new title if that title maybe exists.
 class Titles:
     #instance properties/attributes i forgot the names
-    def __init__(self, title, genres=None):
+    def __init__(self, title, genres=[]):
         self.title = title
         self.genres = genres
     #for if i want to print out everything about the title
@@ -26,12 +26,13 @@ class Titles:
 
 class Genres:
     #you know im pretty sure theyre called instance properties
-    def __init__(self, genre, titles=None):
+    def __init__(self, genre, titles=[]):
         self.genre = genre
         self.titles = titles
     #easy way to get the titles edge list
     def get_genre_and_title(self):
-        return f"The titles associated with the Genre {self.genre}: {self.titles}"
+        readable_title_list = [elem.title for elem in self.titles]
+        return f"The titles associated with {self.genre} are/is: {readable_title_list}"
     #to get titles and genre
     def get_titles(self):
         return self.titles
@@ -40,17 +41,14 @@ class Genres:
     #oof. Was gonna make a new object but that will make things messy
     def add_title(self, title_object):
         if not self.titles:
-            self.titles += [title_object]
-            title_object.add_genre(self.genre)
+            self.titles.append(title_object)
             return
-        for elem in self.titles:
-            if elem == title_object:
-                print(f"{title_object.get_title()} is already under {self.genre}")
-                return
-        self.titles += [title_object]
-        title_object.add_genre(self.genre)
+        if title_object in self.titles:
+            print(f"{title_object.title} is already under {self.genre}")
+            return
+        else:
+            self.titles.append(title_object)
     
-
 #use the premade list of titles and make all of the genre objects
 horror = Genres("Horror")
 action = Genres("Action")
@@ -60,7 +58,7 @@ platformer = Genres("Platformer")
 metroidvania = Genres("Metroidvania")
 hacknslash = Genres("Hack N' Slash")
 rpg = Genres("RPG")
-rougelite = Genres("Rouge-Lite")
+roguelite = Genres("Rogue-lite")
 mystery = Genres("Mystery")
 fantasy = Genres("Fantasy")
 crpg = Genres("CRPG")
@@ -72,18 +70,18 @@ genre_object_dict = {
     "Horror": horror,
     "Action": action,
     "Adventure": adventure,
-    "Souls-Like": soulslike,
+    "Souls-like": soulslike,
     "Platformer": platformer,
     "Metroidvania": metroidvania,
-    "Hack N' Slash": hacknslash,
+    "Hack 'N Slash": hacknslash,
     "RPG": rpg,
-    "Rogue-Lite": rougelite,
+    "Rogue-lite": roguelite,
     "Mystery": mystery,
     "Fantasy": fantasy,
     "CRPG": crpg,
     "JRPG": jrpg,
     "Tactical": tactical,
-    "Post-Apocalytpic": postapoc,
+    "Post-Apocalyptic": postapoc,
     "Shooter": shooter
 }
 #use that same list to make the title objects jesus that was a lot of work
@@ -99,7 +97,7 @@ title_object_dict = {
     "Blasphemous": ["Platformer", "Metroidvania"],
     "Bloodstained: Ritual of the Night": ["Platformer", "Metroidvania"],
     "Celeste": ["Platformer"],
-    "Children of Morta": ["Rouge-lite", "Action", "RPG"],
+    "Children of Morta": ["Rogue-lite", "Action", "RPG"],
     "CrossCode": ["Action", "RPG", "Adventure"],
     "Danganronpa V3: Killing Harmony": ["Mystery"],
     "Dark Souls III": ["Action", "RPG", "Souls-like", "Fantasy"],
@@ -133,19 +131,20 @@ for key, value in title_object_dict.items():
     title_object_dict[key] = title_object
 
 def add_titleObj_to_genreObj(title_obj):
-    print(f"iterating through {title_obj.title}'s genre list...")
+    print(f"Iterating through {title_obj.title}'s genre list...")
+    print("the genres are: ", title_obj.get_genres())
     for elem in title_obj.get_genres():
-        print("Elem is", elem)
-        for key, value in genre_object_dict.items():
-            if elem == key:
-                value.add_title(title_obj)
+        print("Elem is", elem) 
+        genre_object_dict[elem].add_title(title_obj)
 
 for value in title_object_dict.values():
     add_titleObj_to_genreObj(value)
 
-print(metroidvania)
+print(horror.get_genre_and_title())
 #example = Titles("example", ["e.g", "i.e"])
-#example.get_title_and_genres()
+#words = Genres('words', [example])
+#print(example.get_title_and_genres())
+#print(words.get_genre_and_title())
 
 #now ask the user if they want to search through titles or by genre
 
