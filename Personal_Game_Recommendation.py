@@ -50,15 +50,15 @@ class Genres:
     #LMAO A DEFAULT [] FOR TITLES BROKE THE CLASS METHOD AND ANY CHANGES TO THAT INSTANCE PROPERTY WOULD REFLECT ON EVERY OBJECT OF THIS CLASS
     def add_title(self, title_object):
         title_string = title_object.get_title()
-        print(f"{self.genre}'s title list before method starts: {[elem.title for elem in self.titles]}")
+        #print(f"{self.genre}'s title list before method starts: {[elem.title for elem in self.titles]}")
         if self.title_belongs_under_genre(title_object) == False:
-            print(f"{title_string} does not belong under {self.genre}")
+            #print(f"{title_string} does not belong under {self.genre}")
             return
         if self.title_already_in_list(title_object) == True:
-            print(f"{title_string} is already under {self.genre}")
+            #print(f"{title_string} is already under {self.genre}")
             return
         if self.title_belongs_under_genre(title_object) == True and self.title_already_in_list(title_object) == False:
-            print(f"Adding {title_string} to {self.genre}")
+            #print(f"Adding {title_string} to {self.genre}")
             self.titles.append(title_object)
             return
 #IT TOOK 2 DAYS TO FIND OUT I JUST NEEDED TO DELETE LIKE 8 CHARACTERS
@@ -70,7 +70,7 @@ adventure = Genres("Adventure")
 soulsLike = Genres("Souls-Like")
 platformer = Genres("Platformer")
 metroidvania = Genres("Metroidvania")
-hacknslash = Genres("Hack N' Slash")
+hacknslash = Genres("Hack 'N Slash")
 rpg = Genres("RPG")
 roguelite = Genres("Rogue-lite")
 mystery = Genres("Mystery")
@@ -144,24 +144,28 @@ for key, value in title_object_dict.items():
     title_object = Titles(key, value)
     title_object_dict[key] = title_object
 
-
+#This function will iterate through the .genres list of title objects, use the returned strings to point to the correct genre object in the genre dictionary,
+#and use Genre.add_title() to make an edge from the genre object to the title object.
 def add_titleObj_to_genreObj(title_obj):
-    print(f"Iterating through {title_obj.title}'s genre list...")
-    print("the genres are: ", title_obj.get_genres())
+    #print(f"Iterating through {title_obj.title}'s genre list...")
+    #print("the genres are: ", title_obj.get_genres())
     for elem in title_obj.genres:
-        print(f"Genre is {elem} and the titles under {elem} are {genre_object_dict[elem].get_titles()}")
+        #print(f"Genre is {elem} and the titles under {elem} are {genre_object_dict[elem].get_titles()}")
         genre_object_dict[elem].add_title(title_obj)
 
+#connect all titles to their relevant genre objects
 for value in title_object_dict.values():
     add_titleObj_to_genreObj(value)
 
-#now ask the user if they want to search through titles or by genre
+#greet the user
+print('''
+Hello! I have here a bunch of games that I have completed. 
+This program is nothing more than a way to play around with data structures and graphs; just another project.
+Maybe this program will have some extra functionality in the future, but for now, I will allow traversal to find titles based on
+user-inputs that are either genres or a few characters that relate to a genre.
+''')
 
-#if statement for their choice and then ask for a few characters that hopefully match something in this program
-
-#if title, set pointers at the head and tail node to hopefully speed up the search for a relevant title. Relevant 
-#titles will be added to a list (the object themselves). The list is produced and I somehow need to proint out the
-#string Titles and their Genre lists.
+possible_match = input("so tell me, what genre of games would you like to see?: ")
 
 #its easier with Genres. I just use a bunch of if statements and do something similar with Titles Like adding 
 #relevant genres to a list and printing them out in the end, but I'll be printing out the edges too
