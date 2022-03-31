@@ -9,7 +9,7 @@
 #make a new title if that title maybe exists.
 class Titles:
     #instance properties/attributes i forgot the names
-    def __init__(self, title, genres=[]):
+    def __init__(self, title, genres):
         self.title = title
         self.genres = genres
     #for if i want to print out everything about the title
@@ -20,40 +20,54 @@ class Titles:
         return self.title
     def get_genres(self):
         return self.genres
-    #to be used with Genres.add_title()
-    def add_genre(self, genre_string):
-        self.genres += [genre_string]
-
 class Genres:
-    #you know im pretty sure theyre called instance properties
-    def __init__(self, genre, titles=[]):
+    #you know im pretty sure theyre called instance properties HOW DOES NOT GIVING TITLES A DEFAULT VALUE MAKE THE PROGRAM ACTUALLY WORK???????
+    def __init__(self, genre):
         self.genre = genre
-        self.titles = titles
+        self.titles = []
+    
     #easy way to get the titles edge list
-    def get_genre_and_title(self):
+    def get_genre_and_titles(self):
+        #for elem in self.titles:
+            #if self.title_belongs_under_genre(elem) == False:
+                #self.titles.remove(elem)
         readable_title_list = [elem.title for elem in self.titles]
-        return f"The titles associated with {self.genre} are/is: {readable_title_list}"
+        return f"The title(s) under {self.genre} are/is: {readable_title_list}"
+    
     #to get titles and genre
     def get_titles(self):
-        return self.titles
+        return [elem.title for elem in self.titles]
     def get_genre(self):
         return self.genre
-    #oof. Was gonna make a new object but that will make things messy
+    
+    #lets add in 2 true/false methods
+    def title_belongs_under_genre(self, title_object):
+        title_genre_list = title_object.get_genres()
+        return self.genre in title_genre_list
+    def title_already_in_list(self, title_object):
+        return title_object in self.titles
+    
+    #LMAO A DEFAULT [] FOR TITLES BROKE THE CLASS METHOD AND ANY CHANGES TO THAT INSTANCE PROPERTY WOULD REFLECT ON EVERY OBJECT OF THIS CLASS
     def add_title(self, title_object):
-        if not self.titles:
+        title_string = title_object.get_title()
+        print(f"{self.genre}'s title list before method starts: {[elem.title for elem in self.titles]}")
+        if self.title_belongs_under_genre(title_object) == False:
+            print(f"{title_string} does not belong under {self.genre}")
+            return
+        if self.title_already_in_list(title_object) == True:
+            print(f"{title_string} is already under {self.genre}")
+            return
+        if self.title_belongs_under_genre(title_object) == True and self.title_already_in_list(title_object) == False:
+            print(f"Adding {title_string} to {self.genre}")
             self.titles.append(title_object)
             return
-        if title_object in self.titles:
-            print(f"{title_object.title} is already under {self.genre}")
-            return
-        else:
-            self.titles.append(title_object)
+#IT TOOK 2 DAYS TO FIND OUT I JUST NEEDED TO DELETE LIKE 8 CHARACTERS
     
 #use the premade list of titles and make all of the genre objects
 horror = Genres("Horror")
 action = Genres("Action")
 adventure = Genres("Adventure")
-soulslike = Genres("Souls-Like")
+soulsLike = Genres("Souls-Like")
 platformer = Genres("Platformer")
 metroidvania = Genres("Metroidvania")
 hacknslash = Genres("Hack N' Slash")
@@ -70,7 +84,7 @@ genre_object_dict = {
     "Horror": horror,
     "Action": action,
     "Adventure": adventure,
-    "Souls-like": soulslike,
+    "Souls-Like": soulsLike,
     "Platformer": platformer,
     "Metroidvania": metroidvania,
     "Hack 'N Slash": hacknslash,
@@ -89,7 +103,7 @@ title_object_dict = {
     "Alien: Isolation": ["Horror"],
     "Amnesia: Rebirth": ["Horror", "Adventure"],
     "A Plague Tale: Innocence": ["Adventure", "Action"],
-    "Ashen": ["Action", "Adventure", "Souls-like"],
+    "Ashen": ["Action", "Adventure", "Souls-Like"],
     "Axiom Verge": ["Platformer", "Metroidvania"],
     "Axiom Verge 2": ["Platformer", "Metroidvania"],
     "Bayonetta": ["Action", "Hack 'N Slash"],
@@ -100,7 +114,7 @@ title_object_dict = {
     "Children of Morta": ["Rogue-lite", "Action", "RPG"],
     "CrossCode": ["Action", "RPG", "Adventure"],
     "Danganronpa V3: Killing Harmony": ["Mystery"],
-    "Dark Souls III": ["Action", "RPG", "Souls-like", "Fantasy"],
+    "Dark Souls III": ["Action", "RPG", "Souls-Like", "Fantasy"],
     "DELTARUNE": ["RPG"],
     "Disco Elysium": ["RPG", "CRPG"],
     "Divinity: Original Sin II": ["RPG", "Adventure", "Fantasy", "Tactical", "CRPG"],
@@ -119,9 +133,9 @@ title_object_dict = {
     "Prey": ["Horror", "Shooter"],
     "Record of Lodoss War-Deedlit in Wonder Labyrinth-":  ["Platformer", "Metroidvania"],
     "Resident Evil Village": ["Action", "Horror"],
-    "STAR WARS Jedi: Fallen Order": ["Action", "Adventure", "Souls-like"],
+    "STAR WARS Jedi: Fallen Order": ["Action", "Adventure", "Souls-Like"],
     "The Outer Worlds": ["Action", "RPG", "Shooter", "Adventure"],
-    "UNSIGHTED": ["Action", "Adventure", "RPG", "Metroidvania", "Souls-like"],
+    "UNSIGHTED": ["Action", "Adventure", "RPG", "Metroidvania", "Souls-Like"],
     "Wasteland 2: Director's Cut": ["RPG", "Adventure", "CRPG", "Tactical" , "Post-Apocalyptic"]
 }
 #somehow make a for loop that takes every title's list of relevant genres to make an edge 
@@ -130,21 +144,16 @@ for key, value in title_object_dict.items():
     title_object = Titles(key, value)
     title_object_dict[key] = title_object
 
+
 def add_titleObj_to_genreObj(title_obj):
     print(f"Iterating through {title_obj.title}'s genre list...")
     print("the genres are: ", title_obj.get_genres())
-    for elem in title_obj.get_genres():
-        print("Elem is", elem) 
+    for elem in title_obj.genres:
+        print(f"Genre is {elem} and the titles under {elem} are {genre_object_dict[elem].get_titles()}")
         genre_object_dict[elem].add_title(title_obj)
 
 for value in title_object_dict.values():
     add_titleObj_to_genreObj(value)
-
-print(horror.get_genre_and_title())
-#example = Titles("example", ["e.g", "i.e"])
-#words = Genres('words', [example])
-#print(example.get_title_and_genres())
-#print(words.get_genre_and_title())
 
 #now ask the user if they want to search through titles or by genre
 
@@ -154,5 +163,5 @@ print(horror.get_genre_and_title())
 #titles will be added to a list (the object themselves). The list is produced and I somehow need to proint out the
 #string Titles and their Genre lists.
 
-#its easier with Genres. I just use a bunch of if statements and do something similar with Titles like adding 
+#its easier with Genres. I just use a bunch of if statements and do something similar with Titles Like adding 
 #relevant genres to a list and printing them out in the end, but I'll be printing out the edges too
