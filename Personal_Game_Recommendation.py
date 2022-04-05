@@ -165,7 +165,21 @@ Maybe this program will have some extra functionality in the future, but for now
 user-inputs that are either genres or a few characters that relate to a genre.
 ''')
 
-possible_match = input("so tell me, what genre of games would you like to see?: ")
+possible_match = input("so tell me, what genre of games would you like to see? (One word please!): ")
 
 #its easier with Genres. I just use a bunch of if statements and do something similar with Titles Like adding 
 #relevant genres to a list and printing them out in the end, but I'll be printing out the edges too
+def match_to_genre(word):
+    word_but_lower = word.lower()
+    possible_genres = []
+    for key in genre_object_dict.keys():
+        if word_but_lower in key.lower():
+            possible_genres.append(key)
+    return possible_genres
+
+def find_genre_using_input():
+    user_input = input("so tell me, what genre of games would you like to see? (One word please!): ")
+    if " " in user_input:
+        user_input = "".join(user_input.split())
+    print("")
+    
