@@ -164,9 +164,6 @@ This program is nothing more than a way to play around with data structures and 
 Maybe this program will have some extra functionality in the future, but for now, I will allow traversal to find titles based on
 user-inputs that are either genres or a few characters that relate to a genre.
 ''')
-
-possible_match = input("so tell me, what genre of games would you like to see? (One word please!): ")
-
 #its easier with Genres. I just use a bunch of if statements and do something similar with Titles Like adding 
 #relevant genres to a list and printing them out in the end, but I'll be printing out the edges too
 def match_to_genre(word):
@@ -176,10 +173,17 @@ def match_to_genre(word):
         if word_but_lower in key.lower():
             possible_genres.append(key)
     return possible_genres
-
+#lets wrap it all in a function for the sake of recursion.
 def find_genre_using_input():
     user_input = input("so tell me, what genre of games would you like to see? (One word please!): ")
     if " " in user_input:
         user_input = "".join(user_input.split())
-    print("")
+    possible_genres = match_to_genre(user_input)
+    if possible_genres == []:
+        print("Looks like nothing matched. Let's try again.")
+        find_genre_using_input()
+    specify_genre = input(f"Here is what was found: {possible_genres}/nIf any of these genres are a match, go ahead and type out what position the and I will produce the titles associated with that genre.")
+    
+    
+    
     
