@@ -179,10 +179,18 @@ def find_genre_using_input():
     if " " in user_input:
         user_input = "".join(user_input.split())
     possible_genres = match_to_genre(user_input)
-    if possible_genres == []:
+    if len(possible_genres) == 0:
         print("Looks like nothing matched. Let's try again.")
         find_genre_using_input()
-    specify_genre = input(f"Here is what was found: {possible_genres}/nIf any of these genres are a match, go ahead and type out what position the and I will produce the titles associated with that genre.")
+    print("Here is what matches with your input: ")
+    for i in range(len(possible_genres)):
+        print(f"{i + 1}: {possible_genres[i]}")
+    selection = input("Please enter the number that matches the genre you would like to see: ")
+    selected_genre = possible_genres[int(selection) - 1]
+    print(genre_object_dict[selected_genre].get_genre_and_titles())
+
+find_genre_using_input()
+        
     
     
     
