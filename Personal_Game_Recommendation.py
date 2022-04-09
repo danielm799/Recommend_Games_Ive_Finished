@@ -1,38 +1,46 @@
-# I need classes for both titles and graphs. A title object needs to point to
-#it's relevant genres (not necessarily genre objects) and it needs to possess its own name. A genre object
-#would need to point to their relevant title objects, add a title object, and print
-#out its own name and their relevant titles. I think doing this properly is gonna need a 
-#dictionary of titles with their genres as keys, so maybe it isn't necessary to make titles
-#point to other titles if theyre going to be on the list
-#but whats getting to me is that there must only be one title and one genre. THe only things that
-#should be in multiples are the connections e.g. its a graph. But that means that genre objects cannot just
-#make a new title if that title maybe exists.
 class Titles:
     #instance properties/attributes i forgot the names
-    def __init__(self, title, genres):
+    def __init__(self, title, genres=None, critic_rating=None):
         self.title = title
-        self.genres = genres
+        if genres == None:
+            self.genres = []
+        else:
+            self.genres = genres
+        if critic_rating == None:
+            self.critic_rating = "Nothing yet"
+        else:
+            self.critic_rating = critic_rating
+    
     #for if i want to print out everything about the title
-    def get_title_and_genres(self):
-        return "{0}\nGenre: {1}".format(self.title, self.genres)
+    def get_title_info(self):
+        return f""""
+        Name: {self.title}
+        Genre: {self.genres}
+        Metacritic Rating: {self.critic_rating}
+        """
+    
     #just makes getting the title itself easier.
     def get_title(self):
         return self.title
     def get_genres(self):
         return self.genres
+    def get_critic_rating(self):
+        return self.critic_rating
+
 class Genres:
-    #you know im pretty sure theyre called instance properties HOW DOES NOT GIVING TITLES A DEFAULT VALUE MAKE THE PROGRAM ACTUALLY WORK???????
-    def __init__(self, genre):
+    #you know im pretty sure theyre called instance properties
+    def __init__(self, genre, titles=None):
         self.genre = genre
-        self.titles = []
+        if titles == None:
+            self.titles = []
+        else:
+            self.titles = titles
     
-    #easy way to get the titles edge list
+    #iterated through the title objects in self.title and run .get_title_info() on them
     def get_genre_and_titles(self):
-        #for elem in self.titles:
-            #if self.title_belongs_under_genre(elem) == False:
-                #self.titles.remove(elem)
-        readable_title_list = [elem.title for elem in self.titles]
-        return f"The title(s) under {self.genre} are/is: {readable_title_list}"
+        print(f"The titles associated with {self.genre} are/is: ")
+        for elem in self.titles:
+            print(elem.get_title_info())
     
     #to get titles and genre
     def get_titles(self):
@@ -40,28 +48,29 @@ class Genres:
     def get_genre(self):
         return self.genre
     
-    #lets add in 2 true/false methods
+    #lets add in 2 true/false methods to be used with adding a title to a genre
     def title_belongs_under_genre(self, title_object):
         title_genre_list = title_object.get_genres()
         return self.genre in title_genre_list
     def title_already_in_list(self, title_object):
         return title_object in self.titles
     
-    #LMAO A DEFAULT [] FOR TITLES BROKE THE CLASS METHOD AND ANY CHANGES TO THAT INSTANCE PROPERTY WOULD REFLECT ON EVERY OBJECT OF THIS CLASS
+    #core function that takes a title_object and makes a connects the genre object to the title object if there is a match and if there already is not a
+    #connection
     def add_title(self, title_object):
         title_string = title_object.get_title()
         #print(f"{self.genre}'s title list before method starts: {[elem.title for elem in self.titles]}")
         if self.title_belongs_under_genre(title_object) == False:
-            #print(f"{title_string} does not belong under {self.genre}")
+            print(f"{title_string} does not belong under {self.genre}")
             return
         if self.title_already_in_list(title_object) == True:
-            #print(f"{title_string} is already under {self.genre}")
+            print(f"{title_string} is already under {self.genre}")
             return
         if self.title_belongs_under_genre(title_object) == True and self.title_already_in_list(title_object) == False:
-            #print(f"Adding {title_string} to {self.genre}")
+            print(f"Adding {title_string} to {self.genre}")
             self.titles.append(title_object)
             return
-#IT TOOK 2 DAYS TO FIND OUT I JUST NEEDED TO DELETE LIKE 8 CHARACTERS
+
     
 #use the premade list of titles and make all of the genre objects
 horror = Genres("Horror")
@@ -80,6 +89,7 @@ jrpg = Genres("JRPG")
 tactical = Genres("Tactical")
 postapoc = Genres("Post-Apocalyptic")
 shooter = Genres("Shooter")
+#in order to allow the user to access the specific objects, it would be easy to place them into a dictionary
 genre_object_dict = {
     "Horror": horror,
     "Action": action,
@@ -98,10 +108,11 @@ genre_object_dict = {
     "Post-Apocalyptic": postapoc,
     "Shooter": shooter
 }
-#use that same list to make the title objects jesus that was a lot of work
+#use that same list to make the title objects. The dictionary below has all that is needed to make a title object
+#the string title name and a list of strings that will match that title to the genre dictionary.
 title_object_dict = {
-    "Alien: Isolation": ["Horror"],
-    "Amnesia: Rebirth": ["Horror", "Adventure"],
+    "Alien: Isolation": (["Horror"], 81),
+    "Amnesia: Rebirth": (["Horror", "Adventure"]),
     "A Plague Tale: Innocence": ["Adventure", "Action"],
     "Ashen": ["Action", "Adventure", "Souls-Like"],
     "Axiom Verge": ["Platformer", "Metroidvania"],
@@ -138,14 +149,13 @@ title_object_dict = {
     "UNSIGHTED": ["Action", "Adventure", "RPG", "Metroidvania", "Souls-Like"],
     "Wasteland 2: Director's Cut": ["RPG", "Adventure", "CRPG", "Tactical" , "Post-Apocalyptic"]
 }
-#somehow make a for loop that takes every title's list of relevant genres to make an edge 
-#between the title and the relevant genres, or make a function do it
+#the for loop below is meant to turn everything in that title dictionary into a title object.
 for key, value in title_object_dict.items():
     title_object = Titles(key, value)
     title_object_dict[key] = title_object
 
-#This function will iterate through the .genres list of title objects, use the returned strings to point to the correct genre object in the genre dictionary,
-#and use Genre.add_title() to make an edge from the genre object to the title object.
+#This function will iterate through the .genres list of title objects, use the returned strings to point to the correct genre object in the 
+#genre dictionary, and use Genre.add_title() to make an edge from the genre object to the title object.
 def add_titleObj_to_genreObj(title_obj):
     #print(f"Iterating through {title_obj.title}'s genre list...")
     #print("the genres are: ", title_obj.get_genres())
@@ -159,13 +169,12 @@ for value in title_object_dict.values():
 
 #greet the user
 print('''
-Hello! I have here a bunch of games that I have completed. 
-This program is nothing more than a way to play around with data structures and graphs; just another project.
-Maybe this program will have some extra functionality in the future, but for now, I will allow traversal to find titles based on
-user-inputs that are either genres or a few characters that relate to a genre.
+Hello!
+What I have here is a program that contains some of the video games I have played and completed. You can use inputs
+to traverse the genres I have played games from and thus produce the titles that are associated with that genre.
 ''')
-#its easier with Genres. I just use a bunch of if statements and do something similar with Titles Like adding 
-#relevant genres to a list and printing them out in the end, but I'll be printing out the edges too
+#this function is meant to cross-check a user input across the genre dictionary and produce a list of dictionary keys
+#that will be used to access the relevant Genre objects
 def match_to_genre(word):
     word_but_lower = word.lower()
     possible_genres = []
@@ -173,7 +182,9 @@ def match_to_genre(word):
         if word_but_lower in key.lower():
             possible_genres.append(key)
     return possible_genres
-#lets wrap it all in a function for the sake of recursion.
+
+#the function will be used as what makes the program persist using recursion to repeat the program in case the 
+#user-input does not match.
 def find_genre_using_input():
     user_input = input("so tell me, what genre of games would you like to see? (One word please!): ")
     if " " in user_input:
