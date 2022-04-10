@@ -13,11 +13,7 @@ class Titles:
     
     #for if i want to print out everything about the title
     def get_title_info(self):
-        return f""""
-        Name: {self.title}
-        Genre: {self.genres}
-        Metacritic Rating: {self.critic_rating}
-        """
+        return f"Name: {self.title}\nGenre: {self.genres}\nMetacritic Rating: {self.critic_rating}"
     
     #just makes getting the title itself easier.
     def get_title(self):
@@ -67,7 +63,7 @@ class Genres:
             print(f"{title_string} is already under {self.genre}")
             return
         if self.title_belongs_under_genre(title_object) == True and self.title_already_in_list(title_object) == False:
-            print(f"Adding {title_string} to {self.genre}")
+            #print(f"Adding {title_string} to {self.genre}")
             self.titles.append(title_object)
             return
 
@@ -112,46 +108,46 @@ genre_object_dict = {
 #the string title name and a list of strings that will match that title to the genre dictionary.
 title_object_dict = {
     "Alien: Isolation": (["Horror"], 81),
-    "Amnesia: Rebirth": (["Horror", "Adventure"]),
-    "A Plague Tale: Innocence": ["Adventure", "Action"],
-    "Ashen": ["Action", "Adventure", "Souls-Like"],
-    "Axiom Verge": ["Platformer", "Metroidvania"],
-    "Axiom Verge 2": ["Platformer", "Metroidvania"],
-    "Bayonetta": ["Action", "Hack 'N Slash"],
-    "Bayonetta 2": ["Action", "Hack 'N Slash"],
-    "Blasphemous": ["Platformer", "Metroidvania"],
-    "Bloodstained: Ritual of the Night": ["Platformer", "Metroidvania"],
-    "Celeste": ["Platformer"],
-    "Children of Morta": ["Rogue-lite", "Action", "RPG"],
-    "CrossCode": ["Action", "RPG", "Adventure"],
-    "Danganronpa V3: Killing Harmony": ["Mystery"],
-    "Dark Souls III": ["Action", "RPG", "Souls-Like", "Fantasy"],
-    "DELTARUNE": ["RPG"],
-    "Disco Elysium": ["RPG", "CRPG"],
-    "Divinity: Original Sin II": ["RPG", "Adventure", "Fantasy", "Tactical", "CRPG"],
-    "ENDER LILIES: Quietus of the Knights": ["Platformer", "Metroidvania"],
-    "Final Fantasy VIII Remastered": ["JRPG", "RPG"],
-    "GRIS": ["Platformer", "Adventure"],
-    "Going Under": ['Rogue-lite', "Action", "Hack 'N Slash"],
-    "Hollow Knight": ["Action", "Adventure", "Platformer", "Metroidvania"],
-    "Hyper Light Drifter": ["Action", "Adventure", "RPG"],
-    "Layers of Fear: Legacy": ["Horror"],
-    "Metro Exodus": ["Post-Apocalyptic", "Shooter", "Action"],
-    "NieR Replicant ver.1.22474487139…": ["Action", "RPG", "Adventure", "JRPG"],
-    "OMORI": ["RPG", "Horror"],
-    "Pillars of Eternity": ["RPG", "CRPG", "Fantasy"],
-    "Pillars of Eternity II: Deadfire": ["RPG", "CRPG", "Fantasy"],
-    "Prey": ["Horror", "Shooter"],
-    "Record of Lodoss War-Deedlit in Wonder Labyrinth-":  ["Platformer", "Metroidvania"],
-    "Resident Evil Village": ["Action", "Horror"],
-    "STAR WARS Jedi: Fallen Order": ["Action", "Adventure", "Souls-Like"],
-    "The Outer Worlds": ["Action", "RPG", "Shooter", "Adventure"],
-    "UNSIGHTED": ["Action", "Adventure", "RPG", "Metroidvania", "Souls-Like"],
-    "Wasteland 2: Director's Cut": ["RPG", "Adventure", "CRPG", "Tactical" , "Post-Apocalyptic"]
+    "Amnesia: Rebirth": (["Horror", "Adventure"], 80),
+    "A Plague Tale: Innocence": (["Adventure", "Action"], 81),
+    "Ashen": (["Action", "Adventure", "Souls-Like"], 81),
+    "Axiom Verge": (["Platformer", "Metroidvania"], 87),
+    "Axiom Verge 2": (["Platformer", "Metroidvania"], 78),
+    "Bayonetta": (["Action", "Hack 'N Slash"], 90),
+    "Bayonetta 2": (["Action", "Hack 'N Slash"], 92),
+    "Blasphemous": (["Platformer", "Metroidvania"], 82),
+    "Bloodstained: Ritual of the Night": (["Platformer", "Metroidvania"], 83),
+    "Celeste": (["Platformer"], 94),
+    "Children of Morta": (["Rogue-lite", "Action", "RPG"], 82),
+    "CrossCode": (["Action", "RPG", "Adventure"], 86),
+    "Danganronpa V3: Killing Harmony": (["Mystery"], 81),
+    "Dark Souls III": (["Action", "RPG", "Souls-Like", "Fantasy"], 89),
+    "Disco Elysium": (["RPG", "CRPG"], 92),
+    "Divinity: Original Sin II": (["RPG", "Adventure", "Fantasy", "Tactical", "CRPG"], 98),
+    "ENDER LILIES: Quietus of the Knights": (["Platformer", "Metroidvania"], 88),
+    "Final Fantasy VIII Remastered": (["JRPG", "RPG"], 82),
+    "GRIS": (["Platformer", "Adventure"], 83),
+    "Going Under": (['Rogue-lite', "Action", "Hack 'N Slash"], 81),
+    "Hollow Knight": (["Action", "Adventure", "Platformer", "Metroidvania"], 90),
+    "Hyper Light Drifter": (["Action", "Adventure", "RPG"], 88),
+    "Layers of Fear: Legacy": (["Horror"], 80),
+    "Metro Exodus": (["Post-Apocalyptic", "Shooter", "Action"], 82),
+    "NieR Replicant ver.1.22474487139…": (["Action", "RPG", "Adventure", "JRPG"], 83),
+    "OMORI": (["RPG", "Horror"], 87),
+    "Pillars of Eternity": (["RPG", "CRPG", "Fantasy"], 89),
+    "Pillars of Eternity II: Deadfire": (["RPG", "CRPG", "Fantasy"], 88),
+    "Prey": (["Horror", "Shooter"], 82),
+    "Record of Lodoss War-Deedlit in Wonder Labyrinth-":  (["Platformer", "Metroidvania"], 82),
+    "Resident Evil Village": (["Action", "Horror"], 84),
+    "STAR WARS Jedi: Fallen Order": (["Action", "Adventure", "Souls-Like"], 91),
+    "The Outer Worlds": (["Action", "RPG", "Shooter", "Adventure"], 66),
+    "Undertale": (["RPG"], 92),
+    "UNSIGHTED": (["Action", "Adventure", "RPG", "Metroidvania", "Souls-Like"], 88),
+    "Wasteland 2: Director's Cut": (["RPG", "Adventure", "CRPG", "Tactical" , "Post-Apocalyptic"], 87)
 }
 #the for loop below is meant to turn everything in that title dictionary into a title object.
 for key, value in title_object_dict.items():
-    title_object = Titles(key, value)
+    title_object = Titles(key, value[0], value[1])
     title_object_dict[key] = title_object
 
 #This function will iterate through the .genres list of title objects, use the returned strings to point to the correct genre object in the 
@@ -198,7 +194,7 @@ def find_genre_using_input():
         print(f"{i + 1}: {possible_genres[i]}")
     selection = input("Please enter the number that matches the genre you would like to see: ")
     selected_genre = possible_genres[int(selection) - 1]
-    print(genre_object_dict[selected_genre].get_genre_and_titles())
+    genre_object_dict[selected_genre].get_genre_and_titles()
 
 find_genre_using_input()
         
